@@ -1,24 +1,11 @@
-import { Request, Response } from "express";
-import z from "zod";
 import { Chunk } from "../models/chunk.model.js";
 import { topK } from "../utils/rag.utils.js";
 import { getUpstreamStatus } from "../utils/http.utils.js";
 import { embed, generateAnswer } from "../services/ai.service.js";
 
 const TOP_K = 4;
-
-const chatSchema = z.object({
-    question: z
-        .string()
-        .trim()
-        .min(2, "question must be at least 2 characters long")
-        .max(1000, "question must be 1000 characters or fewer"),
-    docName: z.string().trim().min(1).max(100).optional(),
-});
-
 const chatController = async (question: string, docName: string): Promise<String> => {
     try {
-        // 2. Load chunks (only from the chosen document, if docName is given)
         const filter = docName ? { docName } : {};
         const chunks = await Chunk.find(filter).select("docName text embedding").lean();
 
