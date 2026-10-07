@@ -10,7 +10,7 @@ export const SocketListener = () => {
 
     // Single Listener Handler Setup
     const handleConnectionAck = (data: { socketId: string }) => {
-      console.log("Connected:", data.socketId);
+      console.log("[+] Socket Server Connected ---- ", data.socketId);
     };
 
     const handleTotalFiles = (data: { socketId: string; files: string[] }) => {
