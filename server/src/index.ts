@@ -1,4 +1,4 @@
-import express, { type ErrorRequestHandler } from "express";
+import express, { NextFunction, Request, Response, type ErrorRequestHandler } from "express";
 import { createServer } from "http";
 import cors from "cors";
 import mongoose from "mongoose";
@@ -16,21 +16,21 @@ app.use(cors({ origin: config.CORS_ORIGIN, credentials: true }));
 app.use(express.json({ limit: "10mb" }));
 
 /* ---------- Routes ---------- */
-app.get("/", (_req, res) => {
+app.get("/", (_req: Request, res: Response) => {
     res.send("Express server is running...");
 });
 
-app.get("/api/health", (_req, res) => {
+app.get("/api/health", (_req: Request, res: Response) => {
     res.json({ ok: true });
 });
 
 
 /* ---------- 404 & Error handling ---------- */
-app.use((_req, res) => {
+app.use((_req: Request, res: Response) => {
     res.status(404).json({ error: "Route not found" });
 });
 
-const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
+const errorHandler: ErrorRequestHandler = (err: Request, _req, res: Response, _next: NextFunction) => {
     console.error("[!] Unhandled error:", err);
     res.status(500).json({ error: "Internal Server Error" });
 };
