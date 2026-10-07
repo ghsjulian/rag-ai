@@ -20,6 +20,11 @@ interface FileUploadData {
     buffer: Buffer | ArrayBuffer;
 }
 
+const uploadsDir = path.join(process.cwd(), '../uploads');
+if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir, { recursive: true });
+}
+
 export const initializeSocket = (httpServer: HttpServer): Server => {
     if (IO) return IO;
 
