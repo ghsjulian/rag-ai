@@ -30,7 +30,7 @@ app.use((_req: Request, res: Response) => {
     res.status(404).json({ error: "Route not found" });
 });
 
-const errorHandler: ErrorRequestHandler = (err: Request, _req, res: Response, _next: NextFunction) => {
+const errorHandler: ErrorRequestHandler = (err: any, _req: Request, res: Response, _next: NextFunction) => {
     console.error("[!] Unhandled error:", err);
     res.status(500).json({ error: "Internal Server Error" });
 };
